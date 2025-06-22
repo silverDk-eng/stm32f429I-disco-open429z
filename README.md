@@ -15,5 +15,4 @@ stm32f429I-discovery-open429z-d board
 <br> -.Wiki: www.waveshare.com/wiki/Open429Z-D
 
 <br>
-<img width="454" alt="image" src="https://github.com/user-attachments/assets/bd5a4246-5758-4fe7-9754-bc024fe719af" />
-
+<img width="593" alt="image" src="https://github.com/user-attachments/assets/b2567c15-4da9-4735-b695-5d58a400b57c" />
