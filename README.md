@@ -15,5 +15,7 @@ stm32f429I-discovery-open429z-d board
 <br> -.https://www.waveshare.com/open429z-d-standard.htm?utm_source=chatgpt.com
 <br> -.Wiki: www.waveshare.com/wiki/Open429Z-D
 
+<br><b>개발 환경</b> 
+<br> IDE : STM32CubeIDE 
 <br>
 <img width="593" alt="image" src="https://github.com/user-attachments/assets/b2567c15-4da9-4735-b695-5d58a400b57c" />
