@@ -2,9 +2,10 @@
 stm32f429I-discovery-open429z-d board
 
 <b>reference book : Mastering STM32. A step-by-step guide.2ed 2022(Noviello C)</b>
-<br>stm32f429I-dicovery board rev : MB1075E 
-<br>Open429Z-D board Maker: WAVESHARE 확장보드
+<br><b>stm32f429I-dicovery board rev : MB1075E</b>
+<br>https://www.st.com/en/evaluation-tools/32f429idiscovery.html
 <br>
+<br><b>Open429Z-D board Maker: WAVESHARE 확장보드</b>
 <br>Development Resources
 <br> -.Schematic
 <br> -.Demo code (examples in C, μC/OS-II)
