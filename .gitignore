@@ -55,3 +55,4 @@ Core/Inc/Backup/
 *.cyclo
 *.bak
 *.mk
+Debug/*
