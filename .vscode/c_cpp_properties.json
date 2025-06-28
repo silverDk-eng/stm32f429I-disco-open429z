@@ -23,6 +23,7 @@
                 "UNICODE",
                 "_UNICODE",
                 "USE_HAL_DRIVER",
+                "USE_FULL_LL_DRIVER",
                 "STM32F429xx"
             ],
             "windowsSdkVersion": "10.0.22621.0",
