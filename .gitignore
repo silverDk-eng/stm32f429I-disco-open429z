@@ -41,6 +41,7 @@
 *.su
 *.idb
 *.pdb
+*.list
 
 # Kernel Module Compile Results
 *.mod*
@@ -55,4 +56,5 @@ Core/Inc/Backup/
 *.cyclo
 *.bak
 *.mk
-Debug/*
+/Debug/
+

@@ -32,7 +32,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include "retarget.h"
+#include "cmsis_os2.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+//#define STDIO_UART5_ENABLE
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -107,7 +109,29 @@ int main(void)
   MX_USART1_UART_Init();
   MX_UART5_Init();
   MX_USB_OTG_HS_PCD_Init();
+  
   /* USER CODE BEGIN 2 */
+  #ifdef STDIO_UART5_ENABLE
+  RetargetInit(&huart5);
+  printf("uart5 is stdin stdout stderr\n");
+  #else
+  RetargetInit(&huart1);
+  printf("uart1 is stdin stdout stderr\n");
+  #endif
+  
+  printf("Hello, STM32F4!\n");
+  /*osStatus_t osKernelGetInfo (osVersion_t *version, char *id_buf, uint32_t id_size) 
+  printf("FreeRTOS version: %s\n", KERNEL_VERSION);
+  */
+  printf("System clock: %lu Hz\n", HAL_RCC_GetSysClockFreq());
+  //printf("Tick frequency: %lu Hz\n", HAL_RCC_GetSysClockFreq() / (1 << (HAL_RCC_GetHCLKPrescaler() >> 4)));
+  printf("Tick count: %lu\n", HAL_GetTick());
+  printf("Tick frequency: %d Hz\n", HAL_GetTickFreq());
+  printf("System initialized successfully.\n");
+  printf("FreeRTOS kernel initialized.\n");
+  printf("System clock configured successfully.\n");
+  printf("All peripherals initialized successfully.\n");
+  printf("Ready to start FreeRTOS scheduler.\n");
 
   /* USER CODE END 2 */
 
@@ -145,7 +169,7 @@ void SystemClock_Config(void)
   /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -154,10 +178,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 72;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 336;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 3;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -169,10 +193,10 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
