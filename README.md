@@ -19,5 +19,14 @@ stm32f429I-discovery-open429z-d board
 
 <br><b>개발 환경</b> 
 <br> IDE : STM32CubeIDE 
-<br>
+<br><b>Port 설정</b>
+<br><b>1.UART1
+<br>PA9	USART1_TX	↔ STLINK_RX [STM32F103CBT6_PA3]
+<br>PA10	USART1_RX ↔ STLINK_TX [STM32F103CBT6_PA2]
+<br>2.UART5
+<br>PC12 UART5_TX - USBTOUART RXD0 - JUMPER 제거 후, 직접 연결
+<br>PD2	UART5_RX  - USBTOUART TXD0 - JUMPER 제거 후, 직접 연결</b>
+
+<img width="848" alt="image" src="https://github.com/user-attachments/assets/7a58f447-541d-4b22-a76d-b86c88d20d93" />
+
 <img width="593" alt="image" src="https://github.com/user-attachments/assets/b2567c15-4da9-4735-b695-5d58a400b57c" />
