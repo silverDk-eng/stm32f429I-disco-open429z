@@ -30,6 +30,7 @@ stm32f429I-discovery-open429z-d board
 <br>PG13 - LD3 Green
 <br>PG14 - LD4 Red
 </b>
+<br>
 <img width="848" alt="image" src="https://github.com/user-attachments/assets/7a58f447-541d-4b22-a76d-b86c88d20d93" />
 
 <img width="593" alt="image" src="https://github.com/user-attachments/assets/b2567c15-4da9-4735-b695-5d58a400b57c" />
