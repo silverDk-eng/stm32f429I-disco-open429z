@@ -58,3 +58,6 @@ Core/Inc/Backup/
 *.mk
 /Debug/
 
+Debug/
+Debug/makefile
+Debug/stm32f429I_open429z.list

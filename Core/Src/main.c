@@ -109,7 +109,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_UART5_Init();
   MX_USB_OTG_HS_PCD_Init();
-  
   /* USER CODE BEGIN 2 */
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
