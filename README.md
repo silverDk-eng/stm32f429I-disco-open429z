@@ -25,9 +25,11 @@ stm32f429I-discovery-open429z-d board
 <br>PA10	USART1_RX ↔ STLINK_TX [STM32F103CBT6_PA2]
 <br>2.UART5
 <br>PC12 UART5_TX - USBTOUART RXD0 - JUMPER 제거 후, 직접 연결
-<br>PD2	UART5_RX  - USBTOUART TXD0 - JUMPER 제거 후, 직접 연결</b>
+<br>PD2	UART5_RX  - USBTOUART TXD0 - JUMPER 제거 후, 직접 연결
 <br>3.LED + USER Botton 추가할 것
-
+<br>PG13 - LD3 Green
+<br>PG14 - LD4 Red
+</b>
 <img width="848" alt="image" src="https://github.com/user-attachments/assets/7a58f447-541d-4b22-a76d-b86c88d20d93" />
 
 <img width="593" alt="image" src="https://github.com/user-attachments/assets/b2567c15-4da9-4735-b695-5d58a400b57c" />
