@@ -15,6 +15,13 @@
   *
   ******************************************************************************
   */
+#include "usbd_core.h"
+#include "usbd_cdc.h"
+#include "usbd_cdc_if.h"
+#include "usbd_hid.h"
+#include "usbd_desc.h"
+#include "usbd_composite_builder.h"
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -26,7 +33,6 @@
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
 
@@ -55,7 +61,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t CDC_EpAdd_Inst[3] = {CDC_IN_EP, CDC_OUT_EP, CDC_CMD_EP}; 	/* CDC Endpoint Addresses array */
+uint8_t HID_EpAdd_Inst = HID_EPIN_ADDR;								/* HID Endpoint Address array */
+USBD_HandleTypeDef hUsbDeviceFS;
+uint8_t hid_report_buffer[4];
+uint8_t HID_InstID = 0, CDC_InstID = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,7 +88,10 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  hid_report_buffer[0] = 0;   /* Buttons – first 3 bits [LSB] */
+  hid_report_buffer[1] = 100; /* X axis 8 bits value signed */
+  hid_report_buffer[2] = 0;   /* Y axis 8 bits value signed*/
+  hid_report_buffer[3] = 0;   /* Wheel 8 bits value signed*/
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -108,8 +121,6 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_UART5_Init();
-  MX_USB_OTG_HS_PCD_Init();
-  
   /* USER CODE BEGIN 2 */
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
@@ -133,12 +144,32 @@ int main(void)
   printf("All peripherals initialized successfully.\n");
   printf("Ready to start FreeRTOS scheduler.\n");
 
+
+  //============================================================================================
+  /* Initialize the USB Device Library */
+  if(USBD_Init(&hUsbDeviceFS, &Class_Desc, 0) != USBD_OK)
+    Error_Handler();
+  /* Store HID Instance Class ID */
+  HID_InstID = hUsbDeviceFS.classId;
+  /* Register the HID Class */
+  if(USBD_RegisterClassComposite(&hUsbDeviceFS, USBD_HID_CLASS, CLASS_TYPE_HID, &HID_EpAdd_Inst) != USBD_OK)
+    Error_Handler();
+  /* Store the HID Class */
+  CDC_InstID = hUsbDeviceFS.classId;
+  /* Register CDC Class First Instance */
+  if(USBD_RegisterClassComposite(&hUsbDeviceFS, USBD_CDC_CLASS, CLASS_TYPE_CDC, CDC_EpAdd_Inst) != USBD_OK)
+    Error_Handler();
+  /* Add CDC Interface Class */
+  if (USBD_CMPSIT_SetClassID(&hUsbDeviceFS, CLASS_TYPE_CDC, 0) != 0xFF)
+  {
+    USBD_CDC_RegisterInterface(&hUsbDeviceFS, &USBD_CDC_Template_fops);
+  }
+  USBD_Start(&hUsbDeviceFS);
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();
-
-  /* Call init function for freertos objects (in cmsis_os2.c) */
+  osKernelInitialize();  /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
@@ -150,6 +181,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if(HAL_GPIO_ReadPin(USER_BT_GPIO_Port, USER_BT_Pin) == GPIO_PIN_SET)
+    {
+      USBD_HID_SendReport(&hUsbDeviceFS, hid_report_buffer, 4, HID_InstID);
+      USBD_CDC_TransmitPacket(&hUsbDeviceFS, CDC_InstID);
+      HAL_Delay(100);
+    }    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -242,8 +279,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
