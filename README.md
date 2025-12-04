@@ -29,6 +29,9 @@ stm32f429I-discovery-open429z-d board
 <br>3.LED + USER Botton 추가할 것
 <br>PG13 - LD3 Green
 <br>PG14 - LD4 Red
+<br>PA0 - USER & WAKE-UP Button
+<img width="441" height="285" alt="image" src="https://github.com/user-attachments/assets/24236e00-e6d2-4958-be44-d4c28d9e1007" />
+
 </b>
 <br>
 <img width="848" alt="image" src="https://github.com/user-attachments/assets/7a58f447-541d-4b22-a76d-b86c88d20d93" />
