@@ -46,7 +46,8 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define USER_BT_Pin GPIO_PIN_0
+#define USER_BT_GPIO_Port GPIOA
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
