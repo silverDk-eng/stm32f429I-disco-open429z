@@ -3,20 +3,21 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
                 // "${workspaceFolder}/**",
                 // "${workspaceFolder}/Core/Inc/**",
                 // "${workspaceFolder}/USB_HOST/App/**",
                 // "${workspaceFolder}/USB_HOST/Target/**",
-                // "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/**",
+                "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/**",
                 // "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/**",
                 // "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include/**",
                 // "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/**",
                 // "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/**",
                 // "${workspaceFolder}/Middlewares/ST/STM32_USB_Host_Library/Core/Inc/**",
                 // "${workspaceFolder}/Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc/**",
-                // "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include/**",
-                // "${workspaceFolder}/Drivers/CMSIS/Include/**"
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include/**",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include/**",
+                "${workspaceFolder}/Drivers/CMSIS/Include/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -24,7 +25,9 @@
                 "_UNICODE",
                 "USE_HAL_DRIVER",
                 "USE_FULL_LL_DRIVER",
-                "STM32F429xx"
+                "STM32F429xx",
+                "USB_OTG_FS",  //Internal FS PHY,
+                "USB_OTG_HS"  //Peripheral HS PHY with ULPI, but not used here. 
             ],
             "windowsSdkVersion": "10.0.22621.0",
             // "compilerPath": "cl.exe",

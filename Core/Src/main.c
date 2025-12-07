@@ -109,7 +109,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_UART5_Init();
   MX_USB_OTG_HS_PCD_Init();
-  
   /* USER CODE BEGIN 2 */
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
@@ -136,9 +135,7 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();
-
-  /* Call init function for freertos objects (in cmsis_os2.c) */
+  osKernelInitialize();  /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
@@ -242,8 +239,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
