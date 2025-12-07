@@ -26,7 +26,7 @@
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_otg.h"
+#include "usb_device.h"
 #include "gpio.h"
 #include "fmc.h"
 
@@ -108,7 +108,6 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_UART5_Init();
-  MX_USB_OTG_HS_PCD_Init();
   /* USER CODE BEGIN 2 */
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
