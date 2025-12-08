@@ -44,7 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define STDIO_UART5_ENABLE
+#define STDIO_UART5_ENABLE
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -109,7 +109,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_UART5_Init();
   /* USER CODE BEGIN 2 */
-  #ifdef STDIO_UART5_ENABLE
+#ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
   printf("uart5 is stdin stdout stderr\n");
   #else
@@ -131,6 +131,22 @@ int main(void)
   printf("All peripherals initialized successfully.\n");
   printf("Ready to start FreeRTOS scheduler.\n");
 
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  GPIO_InitStruct.Pin = GPIO_PIN_12;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET); // Set PA12 Low
+  HAL_Delay(100);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET); // Set PA12 high
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  MX_USB_DEVICE_Init(); 
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -138,7 +154,7 @@ int main(void)
   MX_FREERTOS_Init();
 
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
 
@@ -147,7 +163,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    CDC_Transmit_HS((uint8_t *)"Hello from STM32F4 USB CDC!\r\n", 29);
+    HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
