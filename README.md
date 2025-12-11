@@ -26,6 +26,8 @@ stm32f429I-discovery-open429z-d board
 <br>2.UART5
 <br>PC12 UART5_TX - USBTOUART RXD0 - JUMPER 제거 후, 직접 연결
 <br>PD2	UART5_RX  - USBTOUART TXD0 - JUMPER 제거 후, 직접 연결
+<br>핀 설정은 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
+<br>\Core\Src\usart.c 에 해당함수 존재. hal library내에 weak 존재 -> 재정의함.
 <br>3.LED + USER Botton 추가할 것
 <br>PG13 - LD3 Green
 <br>PG14 - LD4 Red
