@@ -18,15 +18,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
 #include "crc.h"
+#include "dma.h"
 #include "dma2d.h"
 #include "i2c.h"
 #include "ltdc.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
 
@@ -34,7 +33,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "retarget.h"
-#include "cmsis_os2.h"
+//#include "cmsis_os2.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,14 +59,14 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t rxBuffer[256];
+#define RX_BUFFER_SIZE sizeof(rxBuffer)
 /* USER CODE END 0 */
 
 /**
@@ -99,6 +98,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_CRC_Init();
   MX_DMA2D_Init();
   MX_FMC_Init();
@@ -108,8 +108,6 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_UART5_Init();
-  MX_USB_OTG_HS_PCD_Init();
-  
   /* USER CODE BEGIN 2 */
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
@@ -135,21 +133,14 @@ int main(void)
 
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();
-
-  /* Call init function for freertos objects (in cmsis_os2.c) */
-  MX_FREERTOS_Init();
-
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+    HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"STM32F4 DMA UART Test\r\n", 22);
+    HAL_UART_Receive_DMA(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
+    HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -242,8 +233,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
