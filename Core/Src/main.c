@@ -65,7 +65,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t rxBuffer[256];
+uint8_t rxBuffer[16];
 #define RX_BUFFER_SIZE sizeof(rxBuffer)
 /* USER CODE END 0 */
 
@@ -137,9 +137,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"STM32F4 DMA UART Test\r\n", 22);
-    HAL_UART_Receive_DMA(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
+    
+    HAL_UART_Transmit(&huart1, (uint8_t *)"STM32F4 UART Test\r\n", 19, HAL_MAX_DELAY);
+    HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
+    // HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"STM32F4 DMA UART Test\r\n", 22);
+    // HAL_UART_Receive_DMA(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
     HAL_Delay(1000);
     /* USER CODE END WHILE */
 

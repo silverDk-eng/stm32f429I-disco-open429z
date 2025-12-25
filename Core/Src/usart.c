@@ -155,10 +155,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart1_tx.Init.Mode = DMA_NORMAL;
     hdma_usart1_tx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_usart1_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    if (HAL_DMA_Init(&hdma_usart1_tx) != HAL_OK)
-    {
-      Error_Handler();
-    }
+    // if (HAL_DMA_Init(&hdma_usart1_tx) != HAL_OK)
+    // {
+    //   Error_Handler();
+    // }
 
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart1_tx);
 
@@ -173,10 +173,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart1_rx.Init.Mode = DMA_NORMAL;
     hdma_usart1_rx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_usart1_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    if (HAL_DMA_Init(&hdma_usart1_rx) != HAL_OK)
-    {
-      Error_Handler();
-    }
+    // if (HAL_DMA_Init(&hdma_usart1_rx) != HAL_OK)
+    // {
+    //   Error_Handler();
+    // }
 
     __HAL_LINKDMA(uartHandle,hdmarx,hdma_usart1_rx);
 
