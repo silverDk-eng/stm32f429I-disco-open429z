@@ -223,9 +223,13 @@ void Error_Handler(void);
 #define B3_GPIO_Port GPIOG
 #define B4_Pin GPIO_PIN_12
 #define B4_GPIO_Port GPIOG
-#define LD3_Pin GPIO_PIN_13
+// #define LD3_Pin GPIO_PIN_13
+#define LD3_GRN_Pin GPIO_PIN_13
+
+
 #define LD3_GPIO_Port GPIOG
 #define LD4_Pin GPIO_PIN_14
+#define LD4_RED_Pin GPIO_PIN_14
 #define LD4_GPIO_Port GPIOG
 #define SDNCAS_Pin GPIO_PIN_15
 #define SDNCAS_GPIO_Port GPIOG

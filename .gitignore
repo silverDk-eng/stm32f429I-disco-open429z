@@ -58,3 +58,5 @@ Core/Inc/Backup/
 *.mk
 /Debug/
 
+Debug/objects.list
+Debug/

@@ -5,7 +5,7 @@
 #define STDOUT 1
 #define STDERR 2
 
-static UART_HandleTypeDef *gHuart;
+UART_HandleTypeDef *gHuart;
 
 int _isatty(int fd)
 {
@@ -15,6 +15,8 @@ int _write(int fd, char* ptr, int len)
 {
     if (fd == STDOUT || fd == STDERR) {
         HAL_UART_Transmit(gHuart, (uint8_t*)ptr, len, HAL_MAX_DELAY);
+
+        //gHuart->Instance->DR = (uint8_t)(*ptr & (uint8_t)0x00FF);
         return len; // Return number of bytes written
     }
     return -1; // Error for other file descriptors
@@ -47,3 +49,17 @@ void RetargetInit(UART_HandleTypeDef *huart)
   * chars are sent out as soon as they are printed. */
     setvbuf(stdout, NULL, _IONBF, 0);
 }
+
+int sendchar(int ch)
+{
+    //HAL_UART_Transmit(gHuart, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+    gHuart->Instance->DR = (uint8_t)(ch & (uint8_t)0x00FF);
+    return ch;
+}
+
+//int getkey(void)
+//{
+//    uint8_t ch = 0;
+//    HAL_UART_Receive(gHuart, &ch, 1, HAL_MAX_DELAY);
+//    return (int)ch;
+//}

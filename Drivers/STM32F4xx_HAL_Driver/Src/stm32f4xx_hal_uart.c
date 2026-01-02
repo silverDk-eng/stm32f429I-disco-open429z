@@ -256,7 +256,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-
+#include "stdio.h"
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
   */
@@ -2367,6 +2367,7 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
     /* UART in mode Receiver -------------------------------------------------*/
     if (((isrflags & USART_SR_RXNE) != RESET) && ((cr1its & USART_CR1_RXNEIE) != RESET))
     {
+
       UART_Receive_IT(huart);
       return;
     }
@@ -2376,6 +2377,7 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   if ((errorflags != RESET) && (((cr3its & USART_CR3_EIE) != RESET)
                                 || ((cr1its & (USART_CR1_RXNEIE | USART_CR1_PEIE)) != RESET)))
   {
+    printf("error_set");
     /* UART parity error interrupt occurred ----------------------------------*/
     if (((isrflags & USART_SR_PE) != RESET) && ((cr1its & USART_CR1_PEIE) != RESET))
     {

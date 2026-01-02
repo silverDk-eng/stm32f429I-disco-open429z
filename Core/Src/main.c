@@ -66,13 +66,16 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint8_t rxBuffer[16];
-#define RX_BUFFER_SIZE sizeof(rxBuffer)
+// #define RX_BUFFER_SIZE sizeof(rxBuffer)
+#define RX_BUFFER_SIZE 16
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
+void my_uart_init(void);
+extern uint8_t rxBuffer_it[RX_BUFFER_SIZE];
 int main(void)
 {
 
@@ -106,14 +109,17 @@ int main(void)
   MX_LTDC_Init();
   MX_SPI5_Init();
   MX_TIM1_Init();
-  MX_USART1_UART_Init();
-  MX_UART5_Init();
+  // MX_USART1_UART_Init();
+  // MX_UART5_Init();
   /* USER CODE BEGIN 2 */
+
+  my_uart_init();
+
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
   printf("uart5 is stdin stdout stderr\n");
   #else
-  RetargetInit(&huart1);
+  RetargetInit(&huart1); // Use USART1 for STDIO - STLINK Virtual COM Port
   printf("uart1 is stdin stdout stderr\n");
   #endif
   
@@ -137,12 +143,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    
-    HAL_UART_Transmit(&huart1, (uint8_t *)"STM32F4 UART Test\r\n", 19, HAL_MAX_DELAY);
-    HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
+    command_processor_uart5();
+     //HAL_UART_Transmit(&huart5, (uint8_t *)"STM32F4 UART Test\r\n", 19, HAL_MAX_DELAY);
+    //HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
     // HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"STM32F4 DMA UART Test\r\n", 22);
     // HAL_UART_Receive_DMA(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
-    HAL_Delay(1000);
+
+    //HAL_UART_Receive_IT(&huart5, (uint8_t *)rxBuffer_it, 1);
+
+    //HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
