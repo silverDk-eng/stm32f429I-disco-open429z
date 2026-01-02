@@ -24,10 +24,12 @@
 
 /* USER CODE END 0 */
 
-UART_HandleTypeDef huart5;
-UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart5; // Use UART5 for STDIO(board command rx/tx) - STLINK Virtual COM Port
+UART_HandleTypeDef huart1; // Use USART1 for STDIO(printf + my_iprintf(interrupt)) - STLINK Virtual COM Port
 DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
+
+extern uint8_t rxBuffer_it[16];
 
 /* UART5 init function */
 void MX_UART5_Init(void)
@@ -53,11 +55,15 @@ void MX_UART5_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN UART5_Init 2 */
-
+  HAL_NVIC_SetPriority(UART5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(UART5_IRQn);
+  HAL_UART_Receive_IT(&huart5, (uint8_t *)rxBuffer_it, 1);
   /* USER CODE END UART5_Init 2 */
 
 }
 /* USART1 init function */
+
+
 
 void MX_USART1_UART_Init(void)
 {
@@ -81,6 +87,7 @@ void MX_USART1_UART_Init(void)
   {
     Error_Handler();
   }
+
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
@@ -119,6 +126,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     GPIO_InitStruct.Alternate = GPIO_AF8_UART5;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+    printf("UART5 MSP Init\r\n");
   /* USER CODE BEGIN UART5_MspInit 1 */
 
   /* USER CODE END UART5_MspInit 1 */
@@ -155,10 +163,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart1_tx.Init.Mode = DMA_NORMAL;
     hdma_usart1_tx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_usart1_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    if (HAL_DMA_Init(&hdma_usart1_tx) != HAL_OK)
-    {
-      Error_Handler();
-    }
+    // if (HAL_DMA_Init(&hdma_usart1_tx) != HAL_OK)
+    // {
+    //   Error_Handler();
+    // }
 
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart1_tx);
 
@@ -173,16 +181,18 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart1_rx.Init.Mode = DMA_NORMAL;
     hdma_usart1_rx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_usart1_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    if (HAL_DMA_Init(&hdma_usart1_rx) != HAL_OK)
-    {
-      Error_Handler();
-    }
+    // if (HAL_DMA_Init(&hdma_usart1_rx) != HAL_OK)
+    // {
+    //   Error_Handler();
+    // }
 
     __HAL_LINKDMA(uartHandle,hdmarx,hdma_usart1_rx);
 
     /* USART1 interrupt Init */
     HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(USART1_IRQn);
+    
+    printf("USART1 MSP Init\r\n");
   /* USER CODE BEGIN USART1_MspInit 1 */
 
   /* USER CODE END USART1_MspInit 1 */
