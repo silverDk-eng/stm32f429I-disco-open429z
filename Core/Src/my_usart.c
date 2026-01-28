@@ -245,14 +245,15 @@ typedef struct
 
 int led_on_command(char *const argv[], int argc)
 {
-    // my_iprintf("LED ON command executed.\r\n");
+    my_iprintf("LED ON command executed.\n");
     HAL_GPIO_WritePin(GPIOG, LD3_GRN_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOG, LD4_RED_Pin, GPIO_PIN_SET);
+    
     return 0;
 }
 int led_off_command(char *const argv[], int argc)
 {
-    // my_iprintf("LED OFF command executed.\r\n");
+    my_iprintf("LED OFF command executed.\n");
     HAL_GPIO_WritePin(GPIOG, LD3_GRN_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIOG, LD4_RED_Pin, GPIO_PIN_RESET);
     return 0;
