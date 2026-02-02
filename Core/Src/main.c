@@ -38,7 +38,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+void test_sdram_bank2(void);
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -102,18 +102,16 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_CRC_Init();
-  MX_DMA2D_Init();
+  //MX_CRC_Init();
+  //MX_DMA2D_Init();
   MX_FMC_Init();
-  MX_I2C3_Init();
-  MX_LTDC_Init();
-  MX_SPI5_Init();
-  MX_TIM1_Init();
+  //MX_I2C3_Init();
+  //MX_LTDC_Init();
+  //MX_SPI5_Init();
+  //MX_TIM1_Init();
   // MX_USART1_UART_Init();
   // MX_UART5_Init();
   /* USER CODE BEGIN 2 */
-
-  my_uart_init();
 
   #ifdef STDIO_UART5_ENABLE
   RetargetInit(&huart5);
@@ -123,6 +121,8 @@ int main(void)
   printf("uart1 is stdin stdout stderr\n");
   #endif
   
+  my_uart_init();
+
   printf("Hello, STM32F4!\n");
   /*osStatus_t osKernelGetInfo (osVersion_t *version, char *id_buf, uint32_t id_size) 
   printf("FreeRTOS version: %s\n", KERNEL_VERSION);
@@ -144,6 +144,8 @@ int main(void)
   while (1)
   {
     command_processor_uart5();
+
+    test_sdram_bank2();
      //HAL_UART_Transmit(&huart5, (uint8_t *)"STM32F4 UART Test\r\n", 19, HAL_MAX_DELAY);
     //HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuffer, RX_BUFFER_SIZE);
     // HAL_UART_Transmit_DMA(&huart1, (uint8_t *)"STM32F4 DMA UART Test\r\n", 22);
